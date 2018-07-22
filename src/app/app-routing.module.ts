@@ -1,26 +1,17 @@
-import { Routes, RouterModule } from "../../node_modules/@angular/router";
+import { Routes, RouterModule } from "@angular/router";
+import { NgModule } from "@angular/core";
 import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
-import { RecipesComponent } from "./recipes/recipes.component";
-import { NgModule } from "../../node_modules/@angular/core";
-import { RecipeDetailComponent } from "./recipes/recipe-detail/recipe-detail.component";
-import { RecipeStartComponent } from "./recipes/recipe-start/recipe-start.component";
-import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
-import { SignupComponent } from "./auth/signup/signup.component";
-import { SigninComponent } from "./auth/signin/signin.component";
-import { AuthGuard } from "./auth/auth-guard.service";
 
 
+/* 
+    NOTE
+    For routing it's not important that you declared(it's about module approach) component in a same file
+    as a routes live, it's just important that you declare it anywhere in application before you have a
+    chance visiting that route, whitch includes before a link to this route rendered somewhere
+*/
 const appRoutes: Routes = [
     {path: "", redirectTo: "/recipes", pathMatch: "full"},
-    {path: "shopping", component: ShoppingListComponent},
-    {path: "recipes", component: RecipesComponent, children:[
-        {path: "", component: RecipeStartComponent},
-        {path: "new", component: RecipeEditComponent, canActivate: [AuthGuard]},
-        {path: ":id", component: RecipeDetailComponent},
-        {path: ":id/edit", component: RecipeEditComponent, canActivate: [AuthGuard]}
-    ]},
-    {path: "signup", component: SignupComponent},
-    {path: "signin", component: SigninComponent}
+    {path: "shopping", component: ShoppingListComponent}
 ];
 
 
