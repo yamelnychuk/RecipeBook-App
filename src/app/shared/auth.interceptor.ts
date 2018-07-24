@@ -1,11 +1,14 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Injectable } from "../../../node_modules/@angular/core";
-import { AuthService } from "../auth/auth.service";
+import { Store } from "../../../node_modules/@ngrx/store";
+import * as fromApp from "../store/app.reducers";
+import * as fromAuth from "../auth/store/auth.reducers";
+import { switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService){}
+    constructor(private store: Store<fromApp.AppState>){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -14,9 +17,16 @@ export class AuthInterceptor implements HttpInterceptor {
             would have a fresh unchanged multiple times requst
         */
 
-        const copiedReq = req.clone({
-            params: req.params.set('auth', this.authService.getToken())
-        });
-        return next.handle(copiedReq);
+        
+        return this.store.select('auth').pipe(
+            take(1),
+            switchMap(
+            (authState: fromAuth.State) => {
+                const copiedReq = req.clone({
+                    params: req.params.set('auth', authState.token)
+                });
+                return next.handle(copiedReq);
+            }
+        )) 
     }
 }
