@@ -61,7 +61,7 @@
           <div 
             class="row"
             style="margin-bottom: 10px"
-            *ngFor="let item of recipeForm.get('ingredients').controls; let i = index"
+            *ngFor="let item of getControls(); let i = index"
             [formGroupName]="i">
             <div class="col-xs-8">
                 <input 
