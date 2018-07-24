@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { DataStorageService } from '../../shared/data-storage.service';
-import { Response } from '@angular/http';
-import { AuthService } from '../../auth/auth.service';
 import { HttpEvent } from '../../../../node_modules/@angular/common/http';
 import * as App  from '../../store/app.reducers';
 import { Store } from '../../../../node_modules/@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromAuth from "../../auth/store/auth.reducers";
+import * as AuthActions from "../../auth/store/auth.actions";
 
 @Component({
   selector: 'app-header',
@@ -15,8 +14,7 @@ import * as fromAuth from "../../auth/store/auth.reducers";
 })
 export class HeaderComponent implements OnInit  {
   authState: Observable<fromAuth.State>;
-  constructor(private dataStorage: DataStorageService, 
-              private authService: AuthService,
+  constructor(private dataStorage: DataStorageService,
               private store: Store<App.AppState>) { }
 
 
@@ -42,6 +40,6 @@ export class HeaderComponent implements OnInit  {
   }
 
   onLogout(){
-    this.authService.logout();
+    this.store.dispatch(new AuthActions.Logout());
   }
 }

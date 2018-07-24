@@ -4,7 +4,6 @@ import { RecipeService } from "../recipes/recipe.service";
 import { Response } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { Recipe } from "../recipes/recipe.model";
-import { AuthService } from "../auth/auth.service";
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from "@angular/common/http";
 
 
@@ -13,8 +12,7 @@ export class DataStorageService {
     /* URL: string = "https://ng-recipe-book-45aee.firebaseio.com/recipes.json?auth=" */
     URL: string = "https://ng-recipe-book-45aee.firebaseio.com/recipes.json"
     constructor(private httpClient: HttpClient,
-                private recipeService: RecipeService,
-                private authService: AuthService){}
+                private recipeService: RecipeService){}
 
     storeRecipes(){
         //const token = this.authService.getToken();
